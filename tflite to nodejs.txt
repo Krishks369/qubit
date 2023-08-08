@@ -1,0 +1,32 @@
+const tf = require('@tensorflow/tfjs-node');
+const fs = require('fs');
+
+async function loadTFLiteModel() {
+  const modelPath = 'path/to/your/model.tflite'; // Update with the actual path
+  const modelBuffer = fs.readFileSync(modelPath);
+  const model = await tf.lite.loadBuffer(modelBuffer);
+
+  return model;
+}
+
+async function main() {
+  const tfliteModel = await loadTFLiteModel();
+
+  // Prepare input data (replace with your data preparation code)
+  const inputData = [/* your input data */];
+  const inputTensor = tf.tensor(inputData);
+
+  // Perform inference
+  const outputTensor = tfliteModel.predict(inputTensor);
+
+  // Convert output tensor to JavaScript array (replace with proper handling)
+  const outputData = Array.from(outputTensor.dataSync());
+
+  console.log('Output:', outputData);
+
+  // Clean up resources
+  inputTensor.dispose();
+  outputTensor.dispose();
+}
+
+main();
